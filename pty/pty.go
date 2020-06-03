@@ -41,7 +41,7 @@ func MainInterface(s ssh.Session){
 	//get pod list
 	pod :=cluster.GetPodList("")
 	for i,k:= range pod{
-		io.WriteString(s, fmt.Sprint(i,"\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
+		io.WriteString(s, fmt.Sprint(i,"\t\t\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
 	}
 	term := terminal.NewTerminal(s, ">")
 	line := ""
@@ -69,6 +69,6 @@ func MainInterface(s ssh.Session){
 func Console(s ssh.Session)  {
 	pod :=cluster.GetPodList("")
 	for i,k:= range pod{
-		io.WriteString(s, fmt.Sprint(i,"\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
+		io.WriteString(s, fmt.Sprint(i,"\t\t\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
 	}
 }
