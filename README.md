@@ -1,4 +1,3 @@
-# kube-console-on-ssh
 #启动
 > git clone https://github.com/FrelDX/kube-console-on-ssh.git
  cd kube-console-on-ssh && ./k8s
