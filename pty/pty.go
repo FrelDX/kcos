@@ -37,11 +37,11 @@ func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stde
 	}
 func MainInterface(s ssh.Session){
 	io.WriteString(s, fmt.Sprintf("Hello %s\n", s.User()))
-	io.WriteString(s, fmt.Sprint("number","namespace","\t\t\t","podname\n"))
+	io.WriteString(s, fmt.Sprint("number\t\t\t","namespace","\t\t\t","podname\n"))
 	//get pod list
 	pod :=cluster.GetPodList("")
 	for i,k:= range pod{
-		io.WriteString(s, fmt.Sprint(i,k.Namespaces,"\t\t\t",k.Name,"\n"))
+		io.WriteString(s, fmt.Sprint(i,"\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
 	}
 	term := terminal.NewTerminal(s, ">")
 	line := ""
@@ -69,6 +69,6 @@ func MainInterface(s ssh.Session){
 func Console(s ssh.Session)  {
 	pod :=cluster.GetPodList("")
 	for i,k:= range pod{
-		io.WriteString(s, fmt.Sprint(i,k.Namespaces,"\t\t\t",k.Name,"\n"))
+		io.WriteString(s, fmt.Sprint(i,"\t",k.Namespaces,"\t\t\t",k.Name,"\n"))
 	}
 }
