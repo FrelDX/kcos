@@ -8,8 +8,9 @@ import (
 
 func TestGetPodList(t *testing.T) {
 	podlist := GetPodList("")
+	println(podlist)
 	for i,k:=range podlist{
-		fmt.Println(i,k.name,k.Namespaces,k.Containers)
+		fmt.Println(i,k.Name,k.Namespaces,k.Containers)
 
 	}
 }

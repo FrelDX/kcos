@@ -12,13 +12,13 @@ type PodList struct {
 	Containers []string
 }
 
-func GetPodList(namespace string) []*PodList {
-	var pod []*PodList
+func GetPodList(namespace string) []PodList {
+	var pod []PodList
 	pods, err := common.NewClient().CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return nil
 	}
-	podtmp := &PodList{}
+	podtmp := PodList{}
 	for i := 0; i < len(pods.Items); i++ {
 		podtmp.Namespaces = pods.Items[i].Namespace
 		podtmp.Name = pods.Items[i].Name
