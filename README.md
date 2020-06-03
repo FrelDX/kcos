@@ -1,6 +1,6 @@
 #启动
 > git clone https://github.com/FrelDX/kube-console-on-ssh.git
- cd kube-console-on-ssh && ./k8s
+ && cd kube-console-on-ssh && ./k8s
  
 #ssh k8s连接控制台
 > rm -f ~/.ssh/known_hosts && ssh 127.0.0.1 -p 2222
