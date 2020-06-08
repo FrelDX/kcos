@@ -1,14 +1,24 @@
-#启动
-> git clone https://github.com/FrelDX/kube-console-on-ssh.git
- && cd kube-console-on-ssh && ./k8s
- 
-#ssh k8s连接控制台
-> rm -f ~/.ssh/known_hosts && ssh 127.0.0.1 -p 2222
+#what is Kube console on SSH
+> Kube console on SSH connects to kubernetes pod based on SSH protocol and does not rely on kubectl Exec command, because Kube console on SSH implements the service end of SSH, so you can use SSH command to connect to Kube console on SSH on any host. If you need to connect to pod on a large scale, you don't need to install kubectl everywhere to enter the container. Through SSH protocol, it is more convenient to enter the container, and more operations will be supported in the future
 
-#使用
->输入 p查看 pod列表
->输入 quit 退出当前程序，在容器中输入exit退出当前容器
->输入对应的数字直接登录到容器，和jumpserver一样
->默认ssh密码12345678，后续优化配置文件，自己配置
->默认ssh 端口2222，后续优化配置文件，自己配置
->大写的注意，目前支持在k8s集群外部部署，需要~/.kube/config文件认证，后续优化
+#how to install
+```
+//If you don't have a go locale, you can run binaries directly in the repository, which is convenient
+//Download code
+git clone https://github.com/FrelDX/kube-console-on-ssh.git
+// Run kube-console-on-ssh
+cd kube-console-on-ssh && ./kube-console-on-ssh
+```
+
+
+#connection to kube-console-on-ssh
+Using SSH client to connect to Kube console on SSH
+>rm -f ~/.ssh/known_hosts && ssh 127.0.0.1 -p 2222
+
+
+
+#How to use it
+1. 输入p查看pod列表
+2. 输入quit退出程序
+3. 输入对应的数字进入对应的容器
+4. 默认的ssh密码是12345678，账号可以是任意的
