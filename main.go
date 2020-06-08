@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gliderlabs/ssh"
-	"github.com/FrelDX/kube-console-on-ssh/pty"
+	"kube-console-on-ssh/pty"
 	"log"
 	"os"
 	"syscall"

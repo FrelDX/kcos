@@ -4,15 +4,11 @@ import (
 	"fmt"
 	"github.com/gliderlabs/ssh"
 	"golang.org/x/crypto/ssh/terminal"
-	"k8s/cluster"
-	interrupt "k8s/util"
+	"kube-console-on-ssh/cluster"
+	interrupt "kube-console-on-ssh/util"
 	"strconv"
-
-	//"fmt"
-	"k8s/common"
-	//interrupt "k8s/util"
+	"kube-console-on-ssh/common"
 	"log"
-	//"os"
 	"io"
 )
 func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
