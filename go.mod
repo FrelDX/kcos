@@ -1,4 +1,4 @@
-module k8s
+kube-console-on-ssh
 
 go 1.14
 
