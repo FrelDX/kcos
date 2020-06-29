@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"github.com/gliderlabs/ssh"
 	"golang.org/x/crypto/ssh/terminal"
-	"kube-console-on-ssh/cluster"
-	interrupt "kube-console-on-ssh/util"
-	"strconv"
-	"kube-console-on-ssh/common"
-	"log"
 	"io"
+	"kube-console-on-ssh/cluster"
+	"kube-console-on-ssh/common"
+	interrupt "kube-console-on-ssh/util"
+	"log"
+	"strconv"
 )
 func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
 	// to exec,but /bin/bash first then /bin/sh
@@ -20,15 +20,14 @@ func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stde
 		if err != nil {
 			err = Remotepty(client, config, namespace, podName, "/bin/sh", "", stdin, stdout, stderr)
 			if err != nil {
-				log.Fatal(err)
+				log.Print(err)
 			}
 		}
 		return  nil
 	}
 	// Processing signal
 	return interrupt.Chain(nil, func() {
-		// print
-		println("go to interface")
+		log.Print("go to interface")
 	}).Run(exec)
 	}
 func MainInterface(s ssh.Session){
