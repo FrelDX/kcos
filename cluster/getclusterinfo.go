@@ -1,18 +1,19 @@
 package cluster
 
 import (
-	"fmt"
-	"kube-console-on-ssh/common"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"kube-console-on-ssh/common"
+	"log"
 )
 
 type PodList struct {
 	Namespaces string
 	Name       string
 	Containers []string
+	Ip  string
 }
 
-func GetPodList(namespace string) []PodList {
+func GetPodList(namespace string) *[]PodList {
 	var pod []PodList
 	pods, err := common.NewClient().CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -21,6 +22,7 @@ func GetPodList(namespace string) []PodList {
 	podtmp := PodList{}
 	for i := 0; i < len(pods.Items); i++ {
 		podtmp.Namespaces = pods.Items[i].Namespace
+		podtmp.Ip = pods.Items[i].Status.PodIP
 		podtmp.Name = pods.Items[i].Name
 		Containers := []string{}
 		// get Containers to pod info
@@ -30,15 +32,17 @@ func GetPodList(namespace string) []PodList {
 		podtmp.Containers = Containers
 		pod = append(pod, podtmp)
 	}
-	return pod
+	return &pod
 }
-func GetNameSpaces() error {
+func GetNameSpaces() *[]string {
+	name :=[]string{}
 	Namespaces, err := common.NewClient().CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
-		return nil
+		log.Print(err)
+		return &name
 	}
 	for i := 0; i < len(Namespaces.Items); i++ {
-		fmt.Println(Namespaces.Items[i].Name)
+		name = append(name,Namespaces.Items[i].Name)
 	}
-	return nil
+	return &name
 }

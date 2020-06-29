@@ -1,0 +1,26 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: kube-console-on-ssh
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-console-on-ssh
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: kube-console-on-ssh
+subjects:
+  - kind: ServiceAccount
+    name: kube-console-on-ssh
+roleRef:
+  kind: Role
+  name: kube-console-on-ssh
+  apiGroup: rbac.authorization.k8s.io
+---
