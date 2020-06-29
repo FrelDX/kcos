@@ -24,3 +24,35 @@ roleRef:
   name: kube-console-on-ssh
   apiGroup: rbac.authorization.k8s.io
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-console-on-ssh
+spec:
+  selector:
+    matchLabels:
+      app: kube-console-on-ssh
+  template:
+    metadata:
+      labels:
+        app: kube-console-on-ssh
+    spec:
+      serviceAccountName: kube-console-on-ssh
+      containers:
+        - name: kube-console-on-ssh
+          image: caojiaoyue/kcos
+          ports:
+            - containerPort: 2222
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-console-on-ssh
+spec:
+  selector:
+    app: kube-console-on-ssh
+  ports:
+    - protocol: TCP
+      port: 2222
+      targetPort: 2222
+  type: NodePort
