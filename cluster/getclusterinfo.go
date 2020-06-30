@@ -13,7 +13,7 @@ type PodList struct {
 	Ip  string
 }
 
-func GetPodList(namespace string) *[]PodList {
+func GetPodList(namespace string) []PodList {
 	var pod []PodList
 	pods, err := common.NewClient().CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -32,7 +32,7 @@ func GetPodList(namespace string) *[]PodList {
 		podtmp.Containers = Containers
 		pod = append(pod, podtmp)
 	}
-	return &pod
+	return pod
 }
 func GetNameSpaces() *[]string {
 	name :=[]string{}
