@@ -9,6 +9,7 @@ func main()  {
 	sshd()
 }
 func sshd()  {
+
 	ssh.Handle(func(s ssh.Session) {
 		pty.MainInterface(s)
 	})

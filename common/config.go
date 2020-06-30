@@ -2,8 +2,10 @@ package common
 
 import (
 	restclient "k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 	"os"
 	"k8s.io/client-go/rest"
+	"path/filepath"
 )
 
 func GetHome() string {
@@ -12,11 +14,16 @@ func GetHome() string {
 	}
 	return os.Getenv("USERPROFILE") // windows
 }
-// out  cluster
+// out  cluster or in cluster
 func Config() (*restclient.Config) {
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		panic(err.Error())
+		kubeconfig := filepath.Join(GetHome(),".kube/config")
+		config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+		if err != nil {
+			panic(err)
+		}
+		return  config
 	}
 	return  config
 }
