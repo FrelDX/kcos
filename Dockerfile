@@ -1,7 +1,21 @@
-FROM golang AS build
-COPY . /kube-console-on-ssh
+FROM alpine:edge AS build
+RUN echo "https://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
+    && echo "https://mirrors.aliyun.com/alpine/v3.9/community" >> /etc/apk/repositories
+RUN apk update
+RUN apk upgrade
+RUN apk add  go gcc g++ git
+COPY ./*  /kcos/
 RUN CGO_ENABLED=1 GOOS=linux
-RUN cd /kube-console-on-ssh &&  go build
-COPY key/id_rsa /key/id_rsa
-WORKDIR /kube-console-on-ssh/
-CMD ["./kube-console-on-ssh"]
+WORKDIR /kcos
+RUN ls -l && pwd
+RUN go build
+
+
+
+
+FROM alpine:3.5
+
+COPY --from=build /kcos /kcos
+WORKDIR /kcos
+RUN mkdir /data
+CMD ["/kcos"]
