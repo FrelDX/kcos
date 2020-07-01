@@ -1,5 +1,4 @@
 FROM golang AS build
-ENV GOPROXY https://goproxy.cn
 COPY . /kube-console-on-ssh
 RUN CGO_ENABLED=1 GOOS=linux
 RUN cd /kube-console-on-ssh &&  go build
