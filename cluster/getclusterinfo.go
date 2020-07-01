@@ -2,7 +2,7 @@ package cluster
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"kube-console-on-ssh/common"
+	"github.com/FrelDX/kcos/common"
 	"log"
 )
 
@@ -34,15 +34,15 @@ func GetPodList(namespace string) []PodList {
 	}
 	return pod
 }
-func GetNameSpaces() *[]string {
+func GetNameSpaces() []string {
 	name :=[]string{}
 	Namespaces, err := common.NewClient().CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
 		log.Print(err)
-		return &name
+		return name
 	}
 	for i := 0; i < len(Namespaces.Items); i++ {
 		name = append(name,Namespaces.Items[i].Name)
 	}
-	return &name
+	return name
 }

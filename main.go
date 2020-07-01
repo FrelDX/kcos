@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gliderlabs/ssh"
-	"kube-console-on-ssh/pty"
+	"github.com/FrelDX/kcos/pty"
 	"log"
 )
 func main()  {

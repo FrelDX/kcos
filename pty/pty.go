@@ -5,30 +5,29 @@ import (
 	"github.com/gliderlabs/ssh"
 	"golang.org/x/crypto/ssh/terminal"
 	"io"
-	"kube-console-on-ssh/cluster"
-	"kube-console-on-ssh/common"
-	interrupt "kube-console-on-ssh/util"
+	"github.com/FrelDX/kcos/cluster"
+	"github.com/FrelDX/kcos/common"
+	interrupt "github.com/FrelDX/kcos/util"
 	"log"
 	"strconv"
 )
 
 const (
-	// 不足60字符的时候空格补齐
 	// Fill in spaces when less than 60 characters
 	DisplayLengthPod = 60
 	DisplayLengthNameSpace = 20
 )
 
-// 全局pod信息保存处,用于连接到pod shell
+// Global pod information storage, used to connect to pod shell
 var podIndex []cluster.PodList
-func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
+func New(namespace string,podName string,container string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
 	// to exec,but /bin/bash first then /bin/sh
 	exec := func()  error{
 		config := common.Config()
 		client := common.NewClient()
-		err := Remotepty(client, config, namespace, podName, "/bin/bash", "", stdin, stdout, stderr)
+		err := Remotepty(client, config, namespace, podName, "/bin/bash", container, stdin, stdout, stderr)
 		if err != nil {
-			err = Remotepty(client, config, namespace, podName, "/bin/sh", "", stdin, stdout, stderr)
+			err = Remotepty(client, config, namespace, podName, "/bin/sh", container, stdin, stdout, stderr)
 			if err != nil {
 				log.Print(err)
 			}
@@ -42,7 +41,7 @@ func New(namespace string,podName string,stdin io.Reader, stdout io.Writer, stde
 	}
 func MainInterface(s ssh.Session){
 	WelcomePage(s)
-	term := terminal.NewTerminal(s, SetColorRed(s.User() + "#"))
+	term := terminal.NewTerminal(s, s.User() + "# ")
 	line := ""
 	// get user input
 	for {
@@ -55,7 +54,6 @@ func MainInterface(s ssh.Session){
 			WelcomePage(s)
 		} else if line =="n"{
 			namespace :=DisplayNameSpace(s)
-			// 对应namespace的操作
 			// Operations corresponding to namespace
 			n:=""
 			for{
@@ -69,9 +67,9 @@ func MainInterface(s ssh.Session){
 				}
 				number, err := strconv.Atoi(n)
 				if err ==nil{
-					// 防止索引超出范围
-					if number < len((*namespace)){
-						DisplayNamespacePod(s,(*namespace)[number])
+					// Prevent index out of range
+					if number < len((namespace)){
+						DisplayNamespacePod(s,(namespace)[number])
 						break
 					}
 					log.Println(err)
@@ -84,7 +82,22 @@ func MainInterface(s ssh.Session){
 		number, err := strconv.Atoi(line)
 		if err == nil{
 			if number < len((podIndex)){
-				New((podIndex)[number].Namespaces,(podIndex)[number].Name,s,s,s)
+				// Multiple containers
+				if len(podIndex[number].Containers) >1{
+					io.WriteString(s, fmt.Sprint(SetColorBlue("Please select a container "),"\n"))
+					for i,c:= range   podIndex[number].Containers{
+						fmt.Sprint(SetColorBlue(strconv.Itoa(i)),"\t",SetColorRed(c),"\n")
+					}
+					// Get user selected container
+					container, _ := term.ReadLine()
+					containerNumber, err :=strconv.Atoi(container)
+					if err ==nil{
+						if containerNumber < len((podIndex[number].Containers)) {
+							New(podIndex[number].Namespaces,podIndex[number].Name,podIndex[number].Containers[containerNumber],s,s,s)
+						}
+					}
+				}
+				New(podIndex[number].Namespaces,podIndex[number].Name,"",s,s,s)
 			}
 			log.Println(err)
 			continue
@@ -96,14 +109,11 @@ func DisplayAllPod(s ssh.Session)  {
 	// to DisplayPod
 	DisplayPod(pod,s)
 }
-
 func DisplayNamespacePod(s ssh.Session,namespace string)  {
 	pod :=cluster.GetPodList(namespace)
 	// to DisplayPod
-	fmt.Println(pod)
 	DisplayPod(pod,s)
 }
-
 func SetColorGreen(msg string) string {
 	return  fmt.Sprintf("\033[32;1m%s\033[0m",msg)
 }
@@ -147,9 +157,9 @@ func DisplayPod(pod []cluster.PodList,s ssh.Session)  {
 	podIndex = pod
 }
 
-func DisplayNameSpace(s ssh.Session) *[]string  {
+func DisplayNameSpace(s ssh.Session) []string  {
 	namespace :=cluster.GetNameSpaces()
-	for i,k:=range *namespace{
+	for i,k:=range namespace{
 		io.WriteString(s, fmt.Sprint(SetColorBlue(strconv.Itoa(i)),"\t",SetColorGreen(k),"\n"))
 	}
 	return namespace

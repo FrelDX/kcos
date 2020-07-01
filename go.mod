@@ -1,4 +1,4 @@
-module kube-console-on-ssh
+module github.com/FrelDX/kcos
 
 go 1.14
 
