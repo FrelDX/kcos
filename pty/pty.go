@@ -20,7 +20,7 @@ const (
 
 // Global pod information storage, used to connect to pod shell
 var podIndex []cluster.PodList
-func New(namespace string,podName string,container string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
+func newPty(namespace string,podName string,container string,stdin io.Reader, stdout io.Writer, stderr io.Writer) error {
 	// to exec,but /bin/bash first then /bin/sh
 	exec := func()  error{
 		config := common.Config()
@@ -39,6 +39,7 @@ func New(namespace string,podName string,container string,stdin io.Reader, stdou
 		log.Print("go to interface")
 	}).Run(exec)
 	}
+
 func MainInterface(s ssh.Session){
 	WelcomePage(s)
 	term := terminal.NewTerminal(s, s.User() + "# ")
@@ -86,18 +87,18 @@ func MainInterface(s ssh.Session){
 				if len(podIndex[number].Containers) >1{
 					io.WriteString(s, fmt.Sprint(SetColorBlue("Please select a container "),"\n"))
 					for i,c:= range   podIndex[number].Containers{
-						fmt.Sprint(SetColorBlue(strconv.Itoa(i)),"\t",SetColorRed(c),"\n")
+						io.WriteString(s,fmt.Sprint(SetColorBlue(strconv.Itoa(i)),"\t",SetColorRed(c),"\n"))
 					}
 					// Get user selected container
 					container, _ := term.ReadLine()
 					containerNumber, err :=strconv.Atoi(container)
 					if err ==nil{
 						if containerNumber < len((podIndex[number].Containers)) {
-							New(podIndex[number].Namespaces,podIndex[number].Name,podIndex[number].Containers[containerNumber],s,s,s)
+							newPty(podIndex[number].Namespaces,podIndex[number].Name,podIndex[number].Containers[containerNumber],s,s,s)
 						}
 					}
 				}
-				New(podIndex[number].Namespaces,podIndex[number].Name,"",s,s,s)
+				newPty(podIndex[number].Namespaces,podIndex[number].Name,"",s,s,s)
 			}
 			log.Println(err)
 			continue
@@ -137,7 +138,6 @@ func WelcomePage(s ssh.Session)  {
 }
 func DisplayPod(pod []cluster.PodList,s ssh.Session)  {
 	for i,k:=range pod{
-		//把名字的长度统一，防止显示的时候乱码
 		// Unify the length of the name to prevent garbled characters when displaying
 		namespace :=k.Namespaces
 		if len(k.Namespaces)<DisplayLengthNameSpace{
@@ -156,7 +156,6 @@ func DisplayPod(pod []cluster.PodList,s ssh.Session)  {
 	// 最新的信息刷新到全局pod信息保存处
 	podIndex = pod
 }
-
 func DisplayNameSpace(s ssh.Session) []string  {
 	namespace :=cluster.GetNameSpaces()
 	for i,k:=range namespace{
@@ -164,7 +163,6 @@ func DisplayNameSpace(s ssh.Session) []string  {
 	}
 	return namespace
 }
-
 func DisplayDeploy(s ssh.Session)  {
 
 }
