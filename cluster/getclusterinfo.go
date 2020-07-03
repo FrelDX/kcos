@@ -34,14 +34,15 @@ func GetPodList(namespace string)([]PodList,error) {
 	}
 	return pod,err
 }
-func GetNameSpaces()([]string,error){
-	name :=[]string{}
+func GetNameSpaces()([]string,error) {
+	name := []string{}
 	Namespaces, err := common.NewClient().CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
 		log.Print(err)
-		return name,err
+		return name, err
 	}
 	for i := 0; i < len(Namespaces.Items); i++ {
-		name = append(name,Namespaces.Items[i].Name)
+		name = append(name, Namespaces.Items[i].Name)
 	}
-	return name,nil
+	return name, nil
+}
