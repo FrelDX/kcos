@@ -19,11 +19,8 @@ func sshd()  {
 	log.Println("starting ssh server on port 2222...")
 	log.Fatal(
 		ssh.ListenAndServe(":2222", nil,
-		ssh.PasswordAuth(func(ctx ssh.Context, pass string) bool {
-		return pass == "12345678"}),
-		ssh.HostKeyFile("./key/id_rsa"),
+			ssh.PasswordAuth(func(ctx ssh.Context, pass string) bool {
+				return pass == "12345678"}),
+			ssh.HostKeyFile("./key/id_rsa"),
 		),
 	)
-
-}
-
