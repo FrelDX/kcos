@@ -45,4 +45,3 @@ func GetNameSpaces()([]string,error){
 		name = append(name,Namespaces.Items[i].Name)
 	}
 	return name,nil
-}

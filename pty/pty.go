@@ -42,11 +42,11 @@ func (p *PtyTerminal)newPty(namespace,podName,container string) error {
 }
 
 func (p *PtyTerminal)DisplayAllPod()  {
-	p.podIndex,err=cluster.GetPodList("")
-	if err !=nil{
-		log.Println(p.User," :",err)
-		return
-	}
+	 p.podIndex,err=cluster.GetPodList("")
+	 if err !=nil{
+	 	log.Println(p.User," :",err)
+		 return
+	 }
 	// to DisplayPod
 	p.DisplayPod()
 }
@@ -101,8 +101,8 @@ func (p *PtyTerminal)stop()  {
 func (p *PtyTerminal)MainInterface() {
 	for {
 		line, err := p.Terminal.ReadLine()
-		//
-	Restart:
+//
+Restart:
 		if err != nil {
 			break
 			log.Println(p.User, " :", err)
