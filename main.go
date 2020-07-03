@@ -1,18 +1,20 @@
 package main
 
 import (
-	"github.com/gliderlabs/ssh"
 	"github.com/FrelDX/kcos/pty"
+	"github.com/gliderlabs/ssh"
 	"log"
 )
 func main()  {
+
 	sshd()
 
 }
 func sshd()  {
-
 	ssh.Handle(func(s ssh.Session) {
-		pty.MainInterface(s)
+		//pty.MainInterface(s)
+		ss :=pty.NewPtyTerminal(s)
+		ss.Start()
 	})
 	log.Println("starting ssh server on port 2222...")
 	log.Fatal(
