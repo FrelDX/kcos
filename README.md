@@ -4,7 +4,7 @@
 ```
 //If you don't have a go locale, you can run binaries directly in the repository, which is convenient
 //Download code
-git clone https://github.com/FrelDX/kube-console-on-ssh.git
+git clone https://github.com/FrelDX/kcos.git
 // Run kube-console-on-ssh
 cd kcos && ./kcos
 ```
