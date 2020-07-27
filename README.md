@@ -6,7 +6,7 @@
 //Download code
 git clone https://github.com/FrelDX/kube-console-on-ssh.git
 // Run kube-console-on-ssh
-cd kube-console-on-ssh && ./kube-console-on-ssh
+cd kcos && ./kcos
 ```
 # connection to kube-console-on-ssh
 Using SSH client to connect to Kube console on SSH
