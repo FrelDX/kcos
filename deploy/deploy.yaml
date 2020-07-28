@@ -1,0 +1,59 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-console-on-ssh
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-console-on-ssh
+subjects:
+- kind: ServiceAccount
+  name: kube-console-on-ssh
+  namespace: default
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-console-on-ssh
+rules:
+- apiGroups: [""]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-console-on-ssh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-console-on-ssh
+spec:
+  selector:
+    matchLabels:
+      app: kube-console-on-ssh
+  template:
+    metadata:
+      labels:
+        app: kube-console-on-ssh
+    spec:
+      serviceAccountName: kube-console-on-ssh
+      containers:
+        - name: kube-console-on-ssh
+          image: caojiaoyue/kcos
+          ports:
+            - containerPort: 2222
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-console-on-ssh
+spec:
+  selector:
+    app: kube-console-on-ssh
+  ports:
+    - protocol: TCP
+      port: 2222
+      targetPort: 2222
+  type: NodePort
