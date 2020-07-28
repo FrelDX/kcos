@@ -16,7 +16,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kube-console-on-ssh
 rules:
-- apiGroups: [""]
+- apiGroups: rbac.authorization.k8s.io
   resources: ["*"]
   verbs: ["*"]
 ---
