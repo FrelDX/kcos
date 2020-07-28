@@ -12,4 +12,4 @@ RUN apk add  gcc g++ git
 COPY --from=builder /kcos /kcos
 WORKDIR /kcos
 RUN mkdir /data
-CMD ["/kcos"]
+CMD ["./kcos"]
