@@ -3,5 +3,40 @@ kind: ConfigMap
 metadata:
   name: kcos
 data:
-  DisplayLengthPod: 60
-  DisplayLengthNameSpace: 20
+  DisplayLengthPod: "60"
+  DisplayLengthNameSpace: "20"
+  Users: |
+    [
+    {"django":"123"},
+    {"root":"456"},
+    ]
+  Role: |
+    [
+      {"admin":[{"namecpace":"*"},{"deploy":"*"}]},
+      {"dev":[{"deploy":"test"}]},
+    ]
+  RoleBinding: |
+    [
+      {"django": "admin"},
+      {"root": "admin"},
+      {"caojiaoyue": "dev"},
+    ]
+#支持定制终端内容，数组的第一个元素，在终端第二列展示，依次往后推，终端的第一列永远只能是序列号,支持定制的内容最多5列，可以少于5列不能多余，如果多余将取数组的前5个元素，
+#定制的字段有podname、namespace、podip、resource、podnode 分别对应 pod名字、命名空间、podip地址、cpu和内存使用量、pod所在的节点
+#终端pod展示页面
+  TerminalPod: |
+    [
+    "podname",
+    "namespace",
+    "podip",
+    "resource",
+    "podnode",
+    ]
+#终端namespace展示页面
+  TerminalNameSpace: |
+    [
+    "namespace",
+    "resource",
+    ]
+
+

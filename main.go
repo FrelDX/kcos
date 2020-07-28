@@ -11,6 +11,7 @@ func main()  {
 
 }
 func sshd() {
+
 	ssh.Handle(func(s ssh.Session) {
 		//pty.MainInterface(s)
 		ss := pty.NewPtyTerminal(s)
