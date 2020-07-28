@@ -9,6 +9,7 @@ RUN go build
 
 
 FROM alpine:3.5
+RUN apk add  gcc g++ git
 COPY --from=builder /kcos /kcos
 WORKDIR /kcos
 RUN mkdir /data
