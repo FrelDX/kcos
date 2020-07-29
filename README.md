@@ -45,4 +45,4 @@ ssh 127.0.0.1 -p 2222
 
 ![Large GIF (942x608)](./doc/readme.gif)
 # 📦 Architecture-diagram
-![pbx](./doc/kcos.png)
+![kcos](./doc/kcos.png)
