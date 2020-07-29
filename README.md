@@ -19,13 +19,7 @@
 
 # 📦  How to install
 
-- If you have a go locale
-```bash
-// Download code to build
-$ git clone https://github.com/FrelDX/kcos.git
-$ go build && ./kcos
-```
-- If you have a kubernetes cluster
+- install kcos on kubernetes
 ```bash
 // Run kube-console-on-ssh on kubernetes cluster
 $ kubectl apply -f https://raw.githubusercontent.com/FrelDX/kcos/master/deploy/deploy.yaml
@@ -33,8 +27,10 @@ $ kubectl apply -f https://raw.githubusercontent.com/FrelDX/kcos/master/deploy/d
 # ♾ Connection to kube-console-on-ssh
 
 Using SSH client to connect to Kube console on SSH
->rm -f ~/.ssh/known_hosts && ssh 127.0.0.1 -p 2222
-
+```bash
+#ssh nodeip:svcport
+ssh 127.0.0.1 -p 2222
+```
 
 
 # 💻 How to use it
@@ -48,3 +44,5 @@ Using SSH client to connect to Kube console on SSH
 - The default SSH password is 12345678, and the account can be any
 
 ![Large GIF (942x608)](./doc/readme.gif)
+# 📦 Architecture-diagram
+![kcos.png](./doc/kcos.png)
