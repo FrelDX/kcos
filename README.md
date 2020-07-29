@@ -10,7 +10,7 @@
 
 - ♾ Perfect API interface
 
-👬 Multi user system
+- 👬 Multi user system
 
 # 💡what is Kube console on SSH
 
