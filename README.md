@@ -19,12 +19,16 @@
 
 # 📦  How to install
 
+- If you have a go locale
+```bash
+// Download code to build
+$ git clone https://github.com/FrelDX/kcos.git
+$ go build && ./kcos
 ```
-//If you don't have a go locale, you can run binaries directly in the repository, which is convenient
-//Download code
-git clone https://github.com/FrelDX/kcos.git
-// Run kube-console-on-ssh
-cd kcos && ./kcos
+- If you have a kubernetes cluster
+```bash
+// Run kube-console-on-ssh on kubernetes cluster
+$ kubectl apply -f https://raw.githubusercontent.com/FrelDX/kcos/master/deploy/deploy.yaml
 ```
 # ♾ Connection to kube-console-on-ssh
 
