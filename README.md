@@ -6,9 +6,9 @@
 
 # 🐱 To Do
 
-🛡 Perfect log audit function
+- 🛡 Perfect log audit function
 
-♾ Perfect API interface
+- ♾ Perfect API interface
 
 👬 Multi user system
 
