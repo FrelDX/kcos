@@ -6,7 +6,7 @@ RUN apk upgrade
 RUN apk add  go gcc g++ git
 COPY ./*  /kcos/
 RUN CGO_ENABLED=1 GOOS=linux	RUN CGO_ENABLED=1 GOOS=linux
-RUN cd /kube-console-on-ssh &&  go build	WORKDIR /kcos
+RUN cd /kcos/kcos &&  go build	WORKDIR /kcos
 COPY key/id_rsa /key/id_rsa	RUN ls -l && pwd
 WORKDIR /kube-console-on-ssh/	RUN go build
 CMD ["./kube-console-on-ssh"]	
