@@ -16,5 +16,5 @@ FROM alpine:3.5
 WORKDIR /
 COPY --from=build /kcos/kcos /kcos
 RUN mkdir /data
-CMD ["/fileproxy"]
+CMD ["/kcos"]
 
