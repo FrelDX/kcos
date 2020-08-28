@@ -1,5 +1,5 @@
 FROM alpine:edge AS build
-COPY . /kube-console-on-ssh	RUN echo "https://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
+RUN echo "https://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
     && echo "https://mirrors.aliyun.com/alpine/v3.9/community" >> /etc/apk/repositories
 RUN apk update
 RUN apk upgrade
