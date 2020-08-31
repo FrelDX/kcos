@@ -5,5 +5,5 @@ RUN CGO_ENABLED=1 GOOS=linux
 RUN cd /kcos &&  go build
 
 WORKDIR /
-COPY key/id_rsa /kcos/key/id_rsa
+COPY key/id_rsa /key/id_rsa
 CMD ["/kcos/kcos"]
