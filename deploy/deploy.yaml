@@ -41,7 +41,7 @@ spec:
       serviceAccountName: kube-console-on-ssh
       containers:
         - name: kube-console-on-ssh
-          image: caojiaoyue/kcos
+          image: docker.io/caojiaoyue/kcos:latest
           ports:
             - containerPort: 2222
 ---
